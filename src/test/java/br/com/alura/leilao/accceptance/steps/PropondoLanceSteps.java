@@ -5,6 +5,7 @@ import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.bs.A;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.it.Quando;
 import io.cucumber.java.pt.E;
@@ -35,13 +36,14 @@ public class PropondoLanceSteps {
 
     @Dado("um lance valido")
     public void dado_um_lance_valido() {
+
         Usuario usuario = new Usuario("Fulano");
         lance = new Lance(usuario, BigDecimal.TEN);
-
     }
 
     @Quando("propoe o leilao")
     public void quando_propoe_o_lance() {
+
         leilao.propoe(lance);
     }
 
@@ -52,25 +54,18 @@ public class PropondoLanceSteps {
         Assert.assertEquals(BigDecimal.TEN, leilao.getLances().get(0).getValor());
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
     @Dado("um lance de {double} reais do usuario {string}")
     public void dado_um_lance_de_reais_usuario_fulano(double valor, String nomeUsuario) {
 
       Lance lance = new Lance(new Usuario(nomeUsuario), new BigDecimal(valor));
-
       lista.add(lance);
-
     }
-
 
     @Quando("propoe os leiloes")
     public void quando_propoe_os_leiloes() {
 
         this.lista.forEach(lance -> leilao.propoe(lance));
-
     }
 
     @Entao("os lances sao aceitos")
@@ -80,5 +75,20 @@ public class PropondoLanceSteps {
         Assert.assertEquals(this.lista.get(0).getValor(), leilao.getLances().get(0).getValor());
         Assert.assertEquals(this.lista.get(1).getValor(), leilao.getLances().get(1).getValor());
     }
+
+    @Dado("um lance invalido de {double} reais")
+    public void dado_um_lance_invalido_de_reais(double valor) {
+
+        this.lance = new Lance(new BigDecimal(valor));
+    }
+
+    @Entao("o lance nao e aceito")
+    public void entao_o_lance_nao_e_aceito() {
+
+        Assert.assertEquals(0, leilao.getLances().size());
+
+    }
+
+
 
 }
