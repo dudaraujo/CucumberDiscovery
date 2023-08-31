@@ -18,13 +18,26 @@ Esquema do Cenario: Propondo uma lance invalido
   Quando propoe o leilao
   Entao o lance nao e aceito
 
+  Exemplos:
+
+    |valor|
+    |0    |
+    |-100 |
+
+
+Cenario: Propondo dois lances com o mesmo usuario
+  Dado dois lances
+    |valor|usuario|
+    |10.0 |cigano |
+    |15.0 |cigano |
+  Quando propoe os leiloes
+  Entao o segundo lance nao e aceito
+
+
+
 
 
   ####################################################################################
 
-  Exemplos:
 
-  |valor|
-  |0    |
-  |-100 |
 

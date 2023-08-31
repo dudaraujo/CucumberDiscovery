@@ -3,6 +3,7 @@ package br.com.alura.leilao.accceptance.steps;
 import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.bs.A;
@@ -14,6 +15,8 @@ import org.junit.Assert;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class PropondoLanceSteps {
 
@@ -87,6 +90,28 @@ public class PropondoLanceSteps {
 
         Assert.assertEquals(0, leilao.getLances().size());
 
+    }
+
+    @Dado("dois lances")
+    public void dado_dois_lances(DataTable dataTable) {
+
+        List<Map<String, String>> valores = dataTable.asMaps();
+        for (Map<String, String> mapa : valores) {
+
+             String valor = mapa.get("valor");
+             String usuario = mapa.get("usuario");
+
+             Lance lance = new Lance(new Usuario(usuario), new BigDecimal(valor));
+             lista.add(lance);
+
+        }
+    }
+
+    @Entao("o segundo lance nao e aceito")
+    public void entao_o_segundo_lance_nao_e_aceito() {
+
+        Assert.assertEquals(1, leilao.getLances().size());
+        Assert.assertEquals(new BigDecimal("10.0"), leilao.getLances().get(0).getValor());
     }
 
 
